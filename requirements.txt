@@ -1,5 +1,6 @@
 biopython==1.72
 Django==2.0.5
+django-cors-headers==2.4.0
 django-rest-auth==0.9.3
 djangorestframework==3.8.2
 flametree==0.1.10
