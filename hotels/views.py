@@ -53,14 +53,14 @@ def check_room(request):
     toDate = request.POST.get('dateTo', None)
 
     pack1 = Reservation_Has_Room.objects.filter(
-        number__numberOfPeople__gte=people, toDate__lte=fromDate)
+        number__beds__gte=people, toDate__lte=fromDate)
     pack2 = Reservation_Has_Room.objects.filter(
-        number__numberOfPeople__gte=people, toDate__gte=toDate)
+        number__beds__gte=people, toDate__gte=toDate)
 
-    available = pack1 + pack2
+    available = pack1 | pack2
 
     if available:
-        return Response(available)
+        return Response(available.values_list('number'))
     else:
         return Response()
 

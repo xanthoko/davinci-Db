@@ -9,6 +9,10 @@ class Unit(models.Model):
     street = models.CharField(max_length=50)
     number = models.PositiveSmallIntegerField()
 
+    def __str__(self):
+        return self.unitId
+        
+
 
 class Building(models.Model):
     buildingName = models.CharField(max_length=100, primary_key=True)
