@@ -116,6 +116,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR + '/static/'
 
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer', )
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': ('rest_framework.renderers.JSONRenderer', )
+# }
