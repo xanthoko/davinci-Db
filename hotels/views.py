@@ -3,7 +3,7 @@ from rest_framework import status, generics
 from rest_framework.decorators import api_view
 
 from hotels.models import Reservation_Has_Room, Reservation, Reservation_Payment
-from hotels.models import Unit, Room
+from hotels.models import Unit, Room, Customer
 from hotels.serializers import listSerializer, createReservation
 
 
@@ -17,7 +17,17 @@ class createReservationView(generics.ListCreateAPIView):
     serializer_class = createReservation
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        fname = request.data.get('firstName')
+        lname = request.data.get('lastName')
+        email = request.data.get('email', None)
+
+        cust = Customer.objects.create(firstName=fname, lastName=lname, email=email)
+
+        cid = cust.customerId
+        fake = request.data.copy()
+        fake.update({'customerId': cid})
+        fake.update({'price': 200})
+        serializer = self.get_serializer(data=fake)
         serializer.is_valid(raise_exception=True)
 
         # save survey to the user
@@ -37,13 +47,6 @@ class createReservationView(generics.ListCreateAPIView):
 
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-
-
-@api_view(['POST'])
-def book(request):
-    rid = Reservation.objects.count()
-    Reservation.objects.create(reservationId=rid)
-    return Response()
 
 
 @api_view(['POST'])
